@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hospital Database Management System | St. Elizabeth Hospital</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         WELCOME PAGE
+    ====================================================== -->
+
+    <div id="welcomePage" class="welcome-container">
+
+        <div class="welcome-card">
+
+            <div class="logo">
+                <img
+                    src="image/logo.png"
+                    alt="St. Elizabeth Hospital Logo"
+                    style="width:100%;height:100%;object-fit:contain;border-radius:50%;">
+            </div>
+
+            <p class="organization">
+                St. Elizabeth Hospital
+            </p>
+
+            <h1>
+                Hospital Database
+                <br>
+                Management System
+            </h1>
+
+            <p class="welcome-message">
+                Welcome to St. Elizabeth Hospital
+            </p>
+
+            <p class="description">
+                A centralized hospital database management system
+                for managing patients, doctors, appointments,
+                laboratory services, pharmacy, billing, and reports.
+            </p>
+
+            <button id="getStartedBtn">
+                Get Started
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         DASHBOARD PAGE
+    ====================================================== -->
+
+    <div id="dashboardPage" class="hidden">
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-header">
+
+                <div class="hospital-logo">
+                    <img
+                        src="image/logo.png"
+                        alt="St. Elizabeth Hospital Logo"
+                        style="width:100%;height:100%;object-fit:contain;border-radius:50%;">
+                </div>
+
+                <div>
+                    <h2>St. Elizabeth</h2>
+                    <p>Hospital Management</p>
+                </div>
+
+            </div>
+
+
+            <!-- MAIN NAVIGATION -->
+
+            <div class="sidebar-title">
+                MAIN
+            </div>
+
+            <button
+                class="nav-item active"
+                data-section="dashboard">
+                📊 Dashboard
+            </button>
+
+            <button
+                class="nav-item"
+                data-section="patients">
+                👤 Patients
+            </button>
+
+            <button
+                class="nav-item"
+                data-section="doctors">
+                👨‍⚕️ Doctors & Staff
+            </button>
+
+            <button
+                class="nav-item"
+                data-section="appointments">
+                📅 Appointments
+            </button>
+
+
+            <!-- SERVICES -->
+
+            <div class="sidebar-title">
+                SERVICES
+            </div>
+
+            <button
+                class="nav-item"
+                data-section="laboratory">
+                🧪 Laboratory
+            </button>
+
+            <button
+                class="nav-item"
+                data-section="pharmacy">
+                💊 Pharmacy
+            </button>
+
+
+            <!-- MANAGEMENT -->
+
+            <div class="sidebar-title">
+                MANAGEMENT
+            </div>
+
+            <button
+                class="nav-item"
+                data-section="billing">
+                💰 Billing & Payments
+            </button>
+
+            <button
+                class="nav-item"
+                data-section="reports">
+                📊 Reports
+            </button>
+
+
+            <!-- USER -->
+
+            <div class="sidebar-user">
+
+                <div class="user-avatar">
+                    RK
+                </div>
+
+                <div>
+                    <strong>Rolandj P. Kansi</strong>
+                    <small>Administrator</small>
+                </div>
+
+            </div>
+
+            <button
+                id="logoutBtn"
+                class="logout-button">
+                🚪 Logout
+            </button>
+
+        </aside>
+
+
+        <!-- =================================================
+             MAIN CONTENT
+        ================================================== -->
+
+        <main class="main-content">
+
+            <!-- =================================================
+                 TOP HEADER
+            ================================================== -->
+
+            <header class="topbar">
+
+                <div>
+
+                    <h1 id="pageTitle">
+                        Dashboard
+                    </h1>
+
+                    <p id="pageSubtitle">
+                        Hospital Database Management System
+                    </p>
+
+                </div>
+
+
+                <div class="topbar-right">
+
+                    <button class="notification-button">
+                        🔔
+                    </button>
+
+                    <div class="profile">
+
+                        <div class="profile-avatar">
+                            RK
+                        </div>
+
+                        <div>
+                            <strong>Rolandj</strong>
+                            <small>Administrator</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================================
+                 DASHBOARD SECTION
+            ================================================== -->
+
+            <section
+                id="dashboard"
+                class="content-section active-section">
+
+                <div class="welcome-banner">
+
+                    <div>
+
+                        <h2>
+                            Welcome to St. Elizabeth Hospital
+                        </h2>
+
+                        <p>
+                            Manage hospital operations, patient records,
+                            medical services, and reports from one
+                            centralized system.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STATISTICS -->
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            👥
+                        </div>
+
+                        <div>
+                            <span>Total Patients</span>
+                            <h3>1,248</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            👨‍⚕️
+                        </div>
+
+                        <div>
+                            <span>Doctors & Staff</span>
+                            <h3>86</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            📅
+                        </div>
+
+                        <div>
+                            <span>Appointments</span>
+                            <h3>42</h3>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            🚑
+                        </div>
+
+                        <div>
+                            <span>Emergency Cases</span>
+                            <h3>12</h3>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="section-card">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Quick Actions</h2>
+
+                            <p>
+                                Frequently used hospital functions
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-actions">
+
+                        <button onclick="addPatient()">
+                            ➕
+                            <span>Register Patient</span>
+                        </button>
+
+                        <button onclick="addAppointment()">
+                            📅
+                            <span>New Appointment</span>
+                        </button>
+
+                        <button onclick="addLabRequest()">
+                            🧪
+                            <span>Laboratory Request</span>
+                        </button>
+
+                        <button onclick="addMedicine()">
+                            💊
+                            <span>Add Medicine</span>
+                        </button>
+
+                        <button onclick="createBill()">
+                            💰
+                            <span>Create Billing</span>
+                        </button>
+
+                        <button onclick="generateReport('Hospital')">
+                            📊
+                            <span>Generate Report</span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PATIENTS SECTION
+            ================================================== -->
+
+            <section
+                id="patients"
+                class="content-section">
+
+                <div class="section-card">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Patient Records</h2>
+
+                            <p>
+                                Manage registered patients and their
+                                basic information.
+                            </p>
+
+                        </div>
+
+                        <button onclick="addPatient()">
+                            ➕ Add Patient
+                        </button>
+
+                    </div>
+
+
+                    <div class="search-area">
+
+                        <input
+                            type="text"
+                            id="patientSearch"
+                            placeholder="Search patient..."
+                            onkeyup="searchPatients()">
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table id="patientTable">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Patient ID</th>
+                                    <th>Full Name</th>
+                                    <th>Age</th>
+                                    <th>Gender</th>
+                                    <th>Contact</th>
+                                    <th>Status</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>P-001</td>
+                                    <td>Juan Dela Cruz</td>
+                                    <td>35</td>
+                                    <td>Male</td>
+                                    <td>0917-123-4567</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>P-002</td>
+                                    <td>Maria Santos</td>
+                                    <td>29</td>
+                                    <td>Female</td>
+                                    <td>0918-234-5678</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>P-003</td>
+                                    <td>Pedro Reyes</td>
+                                    <td>47</td>
+                                    <td>Male</td>
+                                    <td>0919-345-6789</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>P-004</td>
+                                    <td>Angela Garcia</td>
+                                    <td>41</td>
+                                    <td>Female</td>
+                                    <td>0920-456-7890</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>P-005</td>
+                                    <td>Carlo Ramos</td>
+                                    <td>52</td>
+                                    <td>Male</td>
+                                    <td>0921-567-8901</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 DOCTORS SECTION
+            ================================================== -->
+
+            <section
+                id="doctors"
+                class="content-section">
+
+                <div class="section-card">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Doctors & Medical Staff</h2>
+
+                            <p>
+                                Manage doctors and medical personnel.
+                            </p>
+
+                        </div>
+
+                        <button onclick="addDoctor()">
+                            ➕ Add Doctor
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Staff ID</th>
+                                    <th>Name</th>
+                                    <th>Specialization</th>
+                                    <th>Department</th>
+                                    <th>Status</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>D-001</td>
+                                    <td>Dr. Adrian Mendoza</td>
+                                    <td>Internal Medicine</td>
+                                    <td>Medical</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>D-002</td>
+                                    <td>Dr. Sofia Ramirez</td>
+                                    <td>Pediatrics</td>
+                                    <td>Pediatrics</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>D-003</td>
+                                    <td>Dr. Miguel Torres</td>
+                                    <td>General Surgery</td>
+                                    <td>Surgery</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>D-004</td>
+                                    <td>Dr. Andrea Villanueva</td>
+                                    <td>Radiology</td>
+                                    <td>Radiology</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>D-005</td>
+                                    <td>Dr. Carlos Navarro</td>
+                                    <td>Emergency Medicine</td>
+                                    <td>Emergency</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 APPOINTMENTS SECTION
+            ================================================== -->
+
+            <section
+                id="appointments"
+                class="content-section">
+
+                <div class="section-card">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Appointments</h2>
+
+                            <p>
+                                View and manage patient appointments.
+                            </p>
+
+                        </div>
+
+                        <button onclick="addAppointment()">
+                            ➕ New Appointment
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Appointment ID</th>
+                                    <th>Patient</th>
+                                    <th>Doctor</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>A-001</td>
+                                    <td>Juan Dela Cruz</td>
+                                    <td>Dr. Adrian Mendoza</td>
+                                    <td>08/14/2026</td>
+                                    <td>08:30 AM</td>
+
+                                    <td>
+                                        <span class="status confirmed">
+                                            Confirmed
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>A-002</td>
+                                    <td>Maria Santos</td>
+                                    <td>Dr. Sofia Ramirez</td>
+                                    <td>08/14/2026</td>
+                                    <td>09:30 AM</td>
+
+                                    <td>
+                                        <span class="status pending">
+                                            Pending
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>A-003</td>
+                                    <td>Pedro Reyes</td>
+                                    <td>Dr. Miguel Torres</td>
+                                    <td>08/15/2026</td>
+                                    <td>10:00 AM</td>
+
+                                    <td>
+                                        <span class="status confirmed">
+                                            Confirmed
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>A-004</td>
+                                    <td>Angela Garcia</td>
+                                    <td>Dr. Andrea Villanueva</td>
+                                    <td>08/15/2026</td>
+                                    <td>11:30 AM</td>
+
+                                    <td>
+                                        <span class="status confirmed">
+                                            Confirmed
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>A-005</td>
+                                    <td>Carlo Ramos</td>
+                                    <td>Dr. Carlos Navarro</td>
+                                    <td>08/16/2026</td>
+                                    <td>02:00 PM</td>
+
+                                    <td>
+                                        <span class="status pending">
+                                            Pending
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 LABORATORY SECTION
+            ================================================== -->
+
+            <section
+                id="laboratory"
+                class="content-section">
+
+                <div class="section-card">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Laboratory</h2>
+
+                            <p>
+                                Manage laboratory requests and test results.
+                            </p>
+
+                        </div>
+
+                        <button onclick="addLabRequest()">
+                            ➕ New Lab Request
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Request ID</th>
+                                    <th>Patient</th>
+                                    <th>Test</th>
+                                    <th>Date</th>
+                                    <th>Result</th>
+                                    <th>Status</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>LAB-001</td>
+                                    <td>Juan Dela Cruz</td>
+                                    <td>Complete Blood Count</td>
+                                    <td>08/13/2026</td>
+                                    <td>Normal</td>
+
+                                    <td>
+                                        <span class="status confirmed">
+                                            Completed
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>LAB-002</td>
+                                    <td>Maria Santos</td>
+                                    <td>Urinalysis</td>
+                                    <td>08/13/2026</td>
+                                    <td>Pending</td>
+
+                                    <td>
+                                        <span class="status pending">
+                                            Processing
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>LAB-003</td>
+                                    <td>Pedro Reyes</td>
+                                    <td>Blood Chemistry</td>
+                                    <td>08/13/2026</td>
+                                    <td>Normal</td>
+
+                                    <td>
+                                        <span class="status confirmed">
+                                            Completed
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PHARMACY SECTION
+            ================================================== -->
+
+            <section
+                id="pharmacy"
+                class="content-section">
+
+                <div class="section-card">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Pharmacy</h2>
+
+                            <p>
+                                Manage medicines, prescriptions, and inventory.
+                            </p>
+
+                        </div>
+
+                        <button onclick="addMedicine()">
+                            ➕ Add Medicine
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Medicine ID</th>
+                                    <th>Medicine</th>
+                                    <th>Category</th>
+                                    <th>Stock</th>
+                                    <th>Unit Price</th>
+                                    <th>Status</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>MED-001</td>
+                                    <td>Paracetamol 500mg</td>
+                                    <td>Analgesic</td>
+                                    <td>450</td>
+                                    <td>₱5.00</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Available
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>MED-002</td>
+                                    <td>Amoxicillin 500mg</td>
+                                    <td>Antibiotic</td>
+                                    <td>120</td>
+                                    <td>₱12.50</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Available
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>MED-003</td>
+                                    <td>Ibuprofen 400mg</td>
+                                    <td>Analgesic</td>
+                                    <td>35</td>
+                                    <td>₱8.00</td>
+
+                                    <td>
+                                        <span class="status pending">
+                                            Low Stock
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 BILLING SECTION
+            ================================================== -->
+
+            <section
+                id="billing"
+                class="content-section">
+
+                <div class="section-card">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Billing & Payments</h2>
+
+                            <p>
+                                Manage hospital charges and payment records.
+                            </p>
+
+                        </div>
+
+                        <button onclick="createBill()">
+                            ➕ Create Bill
+                        </button>
+
+                    </div>
+
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Bill ID</th>
+                                    <th>Patient</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Payment</th>
+                                    <th>Status</th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>B-001</td>
+                                    <td>Juan Dela Cruz</td>
+                                    <td>Laboratory & Consultation</td>
+                                    <td>₱2,850.00</td>
+                                    <td>Cash</td>
+
+                                    <td>
+                                        <span class="status confirmed">
+                                            Paid
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>B-002</td>
+                                    <td>Maria Santos</td>
+                                    <td>Consultation</td>
+                                    <td>₱1,200.00</td>
+                                    <td>GCash</td>
+
+                                    <td>
+                                        <span class="status confirmed">
+                                            Paid
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>B-003</td>
+                                    <td>Pedro Reyes</td>
+                                    <td>Inpatient Services</td>
+                                    <td>₱8,500.00</td>
+                                    <td>Pending</td>
+
+                                    <td>
+                                        <span class="status pending">
+                                            Unpaid
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 REPORTS SECTION
+            ================================================== -->
+
+            <section
+                id="reports"
+                class="content-section">
+
+                <div class="section-card">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>Reports</h2>
+
+                            <p>
+                                Generate hospital database summaries
+                                and operational reports.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="report-grid">
+
+                        <div class="report-card">
+
+                            <div class="report-icon">
+                                👥
+                            </div>
+
+                            <h3>Patient Report</h3>
+
+                            <p>
+                                Summary of registered patients.
+                            </p>
+
+                            <button
+                                onclick="generateReport('Patient')">
+                                Generate
+                            </button>
+
+                        </div>
+
+
+                        <div class="report-card">
+
+                            <div class="report-icon">
+                                👨‍⚕️
+                            </div>
+
+                            <h3>Staff Report</h3>
+
+                            <p>
+                                Summary of doctors and medical staff.
+                            </p>
+
+                            <button
+                                onclick="generateReport('Staff')">
+                                Generate
+                            </button>
+
+                        </div>
+
+
+                        <div class="report-card">
+
+                            <div class="report-icon">
+                                📅
+                            </div>
+
+                            <h3>Appointment Report</h3>
+
+                            <p>
+                                Summary of hospital appointments.
+                            </p>
+
+                            <button
+                                onclick="generateReport('Appointment')">
+                                Generate
+                            </button>
+
+                        </div>
+
+
+                        <div class="report-card">
+
+                            <div class="report-icon">
+                                💰
+                            </div>
+
+                            <h3>Billing Report</h3>
+
+                            <p>
+                                Summary of billing and payments.
+                            </p>
+
+                            <button
+                                onclick="generateReport('Billing')">
+                                Generate
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
