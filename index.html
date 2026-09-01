@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Hospital Database Management System | Elizabeth Hospital</title>
+    <title>Hospital Database Management System | St. Elizabeth Hospital</title>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -28,7 +28,7 @@
             </div>
 
             <p class="organization">
-                Elizabeth Hospital
+                St. Elizabeth Hospital
             </p>
 
             <h1>
@@ -38,7 +38,7 @@
             </h1>
 
             <p class="welcome-message">
-                Welcome to Elizabeth Hospital
+                Welcome to St. Elizabeth Hospital
             </p>
 
             <p class="description">
@@ -404,6 +404,39 @@
                     </div>
 
 
+                    <div class="task5-form-card">
+                        <div class="task5-form-header">
+                            <h3>Patient Registration Form</h3>
+                            <p>Enter patient information to add a new record to the Patient Records table.</p>
+                        </div>
+                        <form id="patientForm" class="task5-form">
+                            <div class="task5-form-grid">
+                                <div class="form-group">
+                                    <label for="patientName">Full Name</label>
+                                    <input type="text" id="patientName" placeholder="Enter full name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="patientAge">Age</label>
+                                    <input type="number" id="patientAge" min="0" max="120" placeholder="Enter age" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="patientGender">Gender</label>
+                                    <select id="patientGender" required>
+                                        <option value="">Select gender</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="patientContact">Contact Number</label>
+                                    <input type="tel" id="patientContact" placeholder="09XX-XXX-XXXX" pattern="[0-9+()\- ]{7,20}" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="task5-submit">➕ Add Patient</button>
+                        </form>
+                    </div>
+
                     <div class="search-area">
 
                         <input
@@ -495,6 +528,22 @@
                                     <td>41</td>
                                     <td>Female</td>
                                     <td>0920-456-7890</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>P-005</td>
+                                    <td>Carlo Ramos</td>
+                                    <td>52</td>
+                                    <td>Male</td>
+                                    <td>0921-567-8901</td>
 
                                     <td>
                                         <span class="status active">
@@ -628,6 +677,21 @@
 
                                 </tr>
 
+                                <tr>
+
+                                    <td>D-005</td>
+                                    <td>Dr. Carlos Navarro</td>
+                                    <td>Emergency Medicine</td>
+                                    <td>Emergency</td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                </tr>
+
                             </tbody>
 
                         </table>
@@ -667,6 +731,45 @@
 
                     </div>
 
+
+                    <div class="task5-form-card">
+                        <div class="task5-form-header">
+                            <h3>Appointment Request Form</h3>
+                            <p>Submit a new appointment that will be added to the Appointments table.</p>
+                        </div>
+                        <form id="appointmentForm" class="task5-form">
+                            <div class="task5-form-grid">
+                                <div class="form-group">
+                                    <label for="appointmentPatient">Patient Name</label>
+                                    <input type="text" id="appointmentPatient" placeholder="Enter patient name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentDoctor">Doctor</label>
+                                    <select id="appointmentDoctor" required>
+                                        <option value="">Select doctor</option>
+                                        <option>Dr. Adrian Mendoza</option>
+                                        <option>Dr. Sofia Ramirez</option>
+                                        <option>Dr. Miguel Torres</option>
+                                        <option>Dr. Andrea Villanueva</option>
+                                        <option>Dr. Carlos Navarro</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentDate">Appointment Date</label>
+                                    <input type="date" id="appointmentDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentTime">Appointment Time</label>
+                                    <input type="time" id="appointmentTime" required>
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="appointmentReason">Reason / Notes</label>
+                                    <textarea id="appointmentReason" rows="3" placeholder="Enter reason for appointment" required></textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="task5-submit">📅 Add Appointment</button>
+                        </form>
+                    </div>
 
                     <div class="table-container">
 
@@ -735,6 +838,38 @@
                                     <td>
                                         <span class="status confirmed">
                                             Confirmed
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>A-004</td>
+                                    <td>Angela Garcia</td>
+                                    <td>Dr. Andrea Villanueva</td>
+                                    <td>08/15/2026</td>
+                                    <td>11:30 AM</td>
+
+                                    <td>
+                                        <span class="status confirmed">
+                                            Confirmed
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                                <tr>
+
+                                    <td>A-005</td>
+                                    <td>Carlo Ramos</td>
+                                    <td>Dr. Carlos Navarro</td>
+                                    <td>08/16/2026</td>
+                                    <td>02:00 PM</td>
+
+                                    <td>
+                                        <span class="status pending">
+                                            Pending
                                         </span>
                                     </td>
 
