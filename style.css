@@ -1178,3 +1178,48 @@ tr:hover td {
 .admin-form .validation-success.show {
     display: block;
 }
+
+
+/* =========================================================
+   TASK 7 - STORED RECORDS
+   Uses the existing hospital table design and layout.
+========================================================= */
+.records-card {
+    margin-top: 20px;
+}
+
+.records-card .table-container {
+    overflow-x: auto;
+}
+
+.records-card table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.records-card th,
+.records-card td {
+    white-space: nowrap;
+}
+
+.record-delete {
+    border: 1px solid #d92d20;
+    background: #fff;
+    color: #b42318;
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.record-delete:hover {
+    background: #fff1f0;
+}
+
+.empty-records {
+    text-align: center;
+    padding: 18px !important;
+    color: #667085;
+    font-style: italic;
+}

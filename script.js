@@ -647,24 +647,53 @@ if (dashboardPage) {
 }
 
 // =========================================================
-// TASK 6 - DATA INPUT VALIDATION FOR USER & SYSTEM FORMS
+// TASK 6 + TASK 7 - VALIDATION, DATA STORAGE & RECORD MANAGEMENT
 // =========================================================
 document.addEventListener("DOMContentLoaded", function () {
 
     const addUserForm = document.getElementById("addUserForm");
     const accessAssignmentForm = document.getElementById("accessAssignmentForm");
     const systemLoginForm = document.getElementById("systemLoginForm");
+    const expirationDate = document.getElementById("expirationDate");
 
-    // Today's date is used to prevent past expiration dates.
+    const STORAGE_KEYS = {
+        users: "stElizabeth_users",
+        access: "stElizabeth_accessAssignments",
+        logins: "stElizabeth_loginActivity"
+    };
+
     const today = new Date();
     const todayISO = today.getFullYear() + "-" +
         String(today.getMonth() + 1).padStart(2, "0") + "-" +
         String(today.getDate()).padStart(2, "0");
 
-    const expirationDate = document.getElementById("expirationDate");
-    if (expirationDate) {
-        expirationDate.min = todayISO;
+    if (expirationDate) expirationDate.min = todayISO;
+
+    function readRecords(key, defaults) {
+        try {
+            const saved = localStorage.getItem(key);
+            if (saved !== null) return JSON.parse(saved);
+        } catch (error) {
+            console.warn("Could not read saved records:", error);
+        }
+        localStorage.setItem(key, JSON.stringify(defaults));
+        return defaults;
     }
+
+    function saveRecords(key, records) {
+        localStorage.setItem(key, JSON.stringify(records));
+    }
+
+    let users = readRecords(STORAGE_KEYS.users, [
+        { id: "USR-001", username: "Rolandj", email: "rolandj@example.com", department: "Administration", status: "Active" },
+        { id: "USR-002", username: "Maria Santos", email: "maria@example.com", department: "Medical Records", status: "Active" },
+        { id: "USR-003", username: "Juan Dela Cruz", email: "juan@example.com", department: "Medical", status: "Active" },
+        { id: "USR-004", username: "Angela Garcia", email: "angela@example.com", department: "Nursing", status: "Active" },
+        { id: "USR-005", username: "Carlo Ramos", email: "carlo@example.com", department: "Pharmacy", status: "Active" }
+    ]);
+
+    let accessAssignments = readRecords(STORAGE_KEYS.access, []);
+    let loginActivity = readRecords(STORAGE_KEYS.logins, []);
 
     function addMessage(field, message) {
         let messageEl = field.parentElement.querySelector(".validation-message");
@@ -685,26 +714,121 @@ document.addEventListener("DOMContentLoaded", function () {
         return valid;
     }
 
-    function validateRequired(field, label) {
-        return setFieldState(field, field.value.trim() !== "", label + " is required.");
-    }
-
     function validateOnBlur(field, validator) {
         if (!field) return;
-        field.addEventListener("blur", function () {
-            validator();
-        });
+        field.addEventListener("blur", validator);
         field.addEventListener("input", function () {
             if (field.classList.contains("validation-invalid")) validator();
         });
-        field.addEventListener("change", function () {
-            validator();
+        field.addEventListener("change", validator);
+    }
+
+    function resetValidation(form) {
+        form.querySelectorAll(".validation-valid, .validation-invalid").forEach(function (field) {
+            field.classList.remove("validation-valid", "validation-invalid");
+        });
+        form.querySelectorAll(".validation-message").forEach(function (message) {
+            message.classList.remove("show");
+            message.textContent = "";
+        });
+        const rightsGroup = form.querySelector(".checkbox-group");
+        if (rightsGroup) rightsGroup.classList.remove("validation-invalid");
+    }
+
+    function getNextId(records, prefix) {
+        let max = 0;
+        records.forEach(function (record) {
+            const match = String(record.id || "").match(/(\d+)$/);
+            if (match) max = Math.max(max, Number(match[1]));
+        });
+        return prefix + String(max + 1).padStart(3, "0");
+    }
+
+    function emptyRow(tbody, colspan, text) {
+        tbody.innerHTML = `<tr><td colspan="${colspan}" class="empty-records">${escapeHTML(text)}</td></tr>`;
+    }
+
+    function renderUsers() {
+        const tbody = document.querySelector("#userRecordsTable tbody");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+        if (!users.length) {
+            emptyRow(tbody, 6, "No authorized users have been stored yet.");
+            return;
+        }
+        users.forEach(function (user) {
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td>${escapeHTML(user.id)}</td>
+                <td>${escapeHTML(user.username)}</td>
+                <td>${escapeHTML(user.email)}</td>
+                <td>${escapeHTML(user.department)}</td>
+                <td><span class="status ${user.status === "Active" ? "active" : "pending"}">${escapeHTML(user.status)}</span></td>
+                <td><button type="button" class="record-delete" data-type="user" data-id="${escapeHTML(user.id)}">Delete</button></td>`;
         });
     }
 
-    // -------------------------
+    function renderAccessAssignments() {
+        const tbody = document.querySelector("#accessRecordsTable tbody");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+        if (!accessAssignments.length) {
+            emptyRow(tbody, 5, "No access assignments have been stored yet.");
+            return;
+        }
+        accessAssignments.forEach(function (record) {
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td>${escapeHTML(record.id)}</td>
+                <td>${escapeHTML(record.userId)}</td>
+                <td>${escapeHTML(record.rights.join(", "))}</td>
+                <td>${escapeHTML(record.expirationDate)}</td>
+                <td><button type="button" class="record-delete" data-type="access" data-id="${escapeHTML(record.id)}">Delete</button></td>`;
+        });
+    }
+
+    function renderLoginActivity() {
+        const tbody = document.querySelector("#loginRecordsTable tbody");
+        if (!tbody) return;
+        tbody.innerHTML = "";
+        if (!loginActivity.length) {
+            emptyRow(tbody, 4, "No successful login submissions have been stored yet.");
+            return;
+        }
+        loginActivity.forEach(function (record) {
+            const row = tbody.insertRow();
+            row.innerHTML = `
+                <td>${escapeHTML(record.id)}</td>
+                <td>${escapeHTML(record.username)}</td>
+                <td>${escapeHTML(record.dateTime)}</td>
+                <td><button type="button" class="record-delete" data-type="login" data-id="${escapeHTML(record.id)}">Delete</button></td>`;
+        });
+    }
+
+    function refreshUserDropdown() {
+        const select = document.getElementById("accessUserId");
+        if (!select) return;
+        const current = select.value;
+        select.innerHTML = '<option value="">Select User ID</option>';
+        users.forEach(function (user) {
+            const option = document.createElement("option");
+            option.value = user.id + " — " + user.username;
+            option.textContent = user.id + " — " + user.username;
+            select.appendChild(option);
+        });
+        if (Array.from(select.options).some(function (option) { return option.value === current; })) {
+            select.value = current;
+        }
+    }
+
+    function renderAllRecords() {
+        renderUsers();
+        renderAccessAssignments();
+        renderLoginActivity();
+        refreshUserDropdown();
+    }
+
     // FORM 1 - ADD USER
-    // -------------------------
     if (addUserForm) {
         const username = document.getElementById("adminUsername");
         const email = document.getElementById("adminEmail");
@@ -752,13 +876,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         addUserForm.addEventListener("submit", function (event) {
             event.preventDefault();
-
-            const valid = validateUsername() &&
-                validateEmail() &&
-                validateDepartment() &&
-                validatePassword() &&
-                validateStatus();
-
+            const valid = validateUsername() && validateEmail() && validateDepartment() && validatePassword() && validateStatus();
             if (!valid) {
                 alert("Please correct the highlighted fields before adding the user.");
                 const firstInvalid = addUserForm.querySelector(".validation-invalid");
@@ -766,31 +884,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            const usernameValue = username.value.trim();
-            const emailValue = email.value.trim();
+            const newUser = {
+                id: getNextId(users, "USR-"),
+                username: username.value.trim(),
+                email: email.value.trim(),
+                department: department.value,
+                status: status.value
+            };
 
-            alert(
-                "User added successfully!\n\n" +
-                "Username: " + usernameValue + "\n" +
-                "Email: " + emailValue + "\n" +
-                "Department: " + department.value + "\n" +
-                "Status: " + status.value
-            );
+            // Password is validated but intentionally not stored in the record table.
+            users.push(newUser);
+            saveRecords(STORAGE_KEYS.users, users);
+            renderAllRecords();
 
+            alert("User successfully added and stored as " + newUser.id + ".");
             addUserForm.reset();
-            addUserForm.querySelectorAll(".validation-valid, .validation-invalid").forEach(function (field) {
-                field.classList.remove("validation-valid", "validation-invalid");
-            });
-            addUserForm.querySelectorAll(".validation-message").forEach(function (message) {
-                message.classList.remove("show");
-                message.textContent = "";
-            });
+            resetValidation(addUserForm);
         });
     }
 
-    // -------------------------
     // FORM 2 - ROLE & ACCESS
-    // -------------------------
     if (accessAssignmentForm) {
         const userId = document.getElementById("accessUserId");
         const expiration = document.getElementById("expirationDate");
@@ -816,55 +929,41 @@ document.addEventListener("DOMContentLoaded", function () {
         validateOnBlur(userId, validateUserId);
         validateOnBlur(expiration, validateExpiration);
         rights.forEach(function (checkbox) {
-            checkbox.addEventListener("change", function () {
-                validateRights();
-                if (rights.some(function (item) { return item.checked; }) && rightsGroup) {
-                    rightsGroup.classList.remove("validation-invalid");
-                }
-            });
+            checkbox.addEventListener("change", validateRights);
         });
 
         accessAssignmentForm.addEventListener("submit", function (event) {
             event.preventDefault();
-
             const validUser = validateUserId();
             const validDate = validateExpiration();
             const validRights = validateRights();
 
-            if (!validRights) {
-                alert("Please select at least one access right (Read, Write, Execute, or Admin).");
-            }
-
+            if (!validRights) alert("Please select at least one access right (Read, Write, Execute, or Admin).");
             if (!validUser || !validDate || !validRights) {
                 if (!validUser) userId.focus();
                 else if (!validDate) expiration.focus();
                 return;
             }
 
-            const selectedRights = rights.filter(function (checkbox) {
-                return checkbox.checked;
-            }).map(function (checkbox) {
-                return checkbox.value;
-            });
+            const selectedRights = rights.filter(function (checkbox) { return checkbox.checked; }).map(function (checkbox) { return checkbox.value; });
+            const newAssignment = {
+                id: getNextId(accessAssignments, "ACC-"),
+                userId: userId.value,
+                rights: selectedRights,
+                expirationDate: expiration.value
+            };
 
-            alert(
-                "Access assigned successfully!\n\n" +
-                "User: " + userId.value + "\n" +
-                "Access Rights: " + selectedRights.join(", ") + "\n" +
-                "Expiration Date: " + expiration.value
-            );
+            accessAssignments.push(newAssignment);
+            saveRecords(STORAGE_KEYS.access, accessAssignments);
+            renderAccessAssignments();
 
+            alert("Access assignment successfully stored as " + newAssignment.id + ".");
             accessAssignmentForm.reset();
-            accessAssignmentForm.querySelectorAll(".validation-valid, .validation-invalid").forEach(function (field) {
-                field.classList.remove("validation-valid", "validation-invalid");
-            });
-            if (rightsGroup) rightsGroup.classList.remove("validation-invalid");
+            resetValidation(accessAssignmentForm);
         });
     }
 
-    // -------------------------
     // FORM 3 - SYSTEM LOGIN
-    // -------------------------
     if (systemLoginForm) {
         const loginUsername = document.getElementById("loginUsername");
         const loginPassword = document.getElementById("loginPassword");
@@ -887,9 +986,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         systemLoginForm.addEventListener("submit", function (event) {
             event.preventDefault();
-
             const valid = validateLoginUsername() && validateLoginPassword();
-
             if (!valid) {
                 alert("Please correct the highlighted fields before logging in.");
                 const firstInvalid = systemLoginForm.querySelector(".validation-invalid");
@@ -897,15 +994,46 @@ document.addEventListener("DOMContentLoaded", function () {
                 return;
             }
 
-            alert("Login submitted successfully for: " + loginUsername.value.trim());
+            const newLogin = {
+                id: getNextId(loginActivity, "LOG-"),
+                username: loginUsername.value.trim(),
+                dateTime: new Date().toLocaleString()
+            };
+            loginActivity.push(newLogin);
+            saveRecords(STORAGE_KEYS.logins, loginActivity);
+            renderLoginActivity();
 
+            alert("Login submission successfully stored as " + newLogin.id + ".");
             if (!document.getElementById("rememberMe").checked) {
                 systemLoginForm.reset();
-                systemLoginForm.querySelectorAll(".validation-valid, .validation-invalid").forEach(function (field) {
-                    field.classList.remove("validation-valid", "validation-invalid");
-                });
+                resetValidation(systemLoginForm);
             }
         });
     }
-});
 
+    // TASK 7 - RECORD MANAGEMENT: delete individual stored records.
+    document.addEventListener("click", function (event) {
+        const button = event.target.closest(".record-delete");
+        if (!button) return;
+
+        const type = button.getAttribute("data-type");
+        const id = button.getAttribute("data-id");
+        if (!confirm("Delete record " + id + "?")) return;
+
+        if (type === "user") {
+            users = users.filter(function (record) { return record.id !== id; });
+            saveRecords(STORAGE_KEYS.users, users);
+            renderAllRecords();
+        } else if (type === "access") {
+            accessAssignments = accessAssignments.filter(function (record) { return record.id !== id; });
+            saveRecords(STORAGE_KEYS.access, accessAssignments);
+            renderAccessAssignments();
+        } else if (type === "login") {
+            loginActivity = loginActivity.filter(function (record) { return record.id !== id; });
+            saveRecords(STORAGE_KEYS.logins, loginActivity);
+            renderLoginActivity();
+        }
+    });
+
+    renderAllRecords();
+});
