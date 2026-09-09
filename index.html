@@ -1579,6 +1579,97 @@
 
     <script src="js/script.js"></script>
 
+
+    <!-- TASK 8 - EDIT RECORD MODAL -->
+    <div id="editRecordModal" class="edit-modal hidden" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+        <div class="edit-modal-content">
+            <div class="edit-modal-header">
+                <div>
+                    <h2 id="editModalTitle">Edit Record</h2>
+                    <p id="editModalDescription">Update the selected record.</p>
+                </div>
+                <button type="button" id="closeEditModal" class="edit-modal-close" aria-label="Close">&times;</button>
+            </div>
+
+            <form id="editRecordForm" class="admin-form">
+                <input type="hidden" id="editRecordType">
+                <input type="hidden" id="editRecordId">
+
+                <div id="editUserFields" class="form-grid hidden">
+                    <div class="form-group">
+                        <label for="editUsername">Username</label>
+                        <input type="text" id="editUsername" minlength="4" maxlength="20"
+                               pattern="[A-Za-z0-9._-]+" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email Address</label>
+                        <input type="email" id="editEmail" maxlength="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDepartment">Department</label>
+                        <select id="editDepartment" required>
+                            <option value="">Select Department</option>
+                            <option>Administration</option>
+                            <option>Medical Records</option>
+                            <option>Medical</option>
+                            <option>Nursing</option>
+                            <option>Pharmacy</option>
+                            <option>Laboratory</option>
+                            <option>Billing</option>
+                            <option>Human Resources</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editStatus">Status</label>
+                        <select id="editStatus" required>
+                            <option value="">Select Status</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="editAccessFields" class="form-grid hidden">
+                    <div class="form-group">
+                        <label for="editAccessUserId">User ID</label>
+                        <select id="editAccessUserId" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Access Rights</label>
+                        <div id="editAccessRightsGroup" class="checkbox-group">
+                            <label class="checkbox-option"><input type="checkbox" name="editAccessRights" value="Read"> Read</label>
+                            <label class="checkbox-option"><input type="checkbox" name="editAccessRights" value="Write"> Write</label>
+                            <label class="checkbox-option"><input type="checkbox" name="editAccessRights" value="Execute"> Execute</label>
+                            <label class="checkbox-option"><input type="checkbox" name="editAccessRights" value="Admin"> Admin</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editExpirationDate">Expiration Date</label>
+                        <input type="date" id="editExpirationDate" required>
+                    </div>
+                </div>
+
+                <div id="editLoginFields" class="form-grid hidden">
+                    <div class="form-group">
+                        <label for="editLoginUsername">Username / Email</label>
+                        <input type="text" id="editLoginUsername" maxlength="100" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLoginDateTime">Date &amp; Time</label>
+                        <input type="datetime-local" id="editLoginDateTime" required>
+                    </div>
+                </div>
+
+                <div id="editModalMessage" class="edit-modal-message" aria-live="polite"></div>
+
+                <div class="edit-modal-actions">
+                    <button type="button" id="cancelEditButton" class="secondary-button">Cancel</button>
+                    <button type="submit" class="primary-button">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>

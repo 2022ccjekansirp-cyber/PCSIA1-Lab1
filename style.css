@@ -1223,3 +1223,143 @@ tr:hover td {
     color: #667085;
     font-style: italic;
 }
+
+
+/* =========================================================
+   TASK 8 - EDIT / DELETE CONTROLS AND EDIT MODAL
+========================================================= */
+
+.record-actions {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.record-edit,
+.record-delete {
+    min-width: 58px;
+}
+
+.record-edit {
+    border: 1px solid #079447;
+    background: #fff;
+    color: #056b34;
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.record-edit:hover {
+    background: #eaf8ef;
+}
+
+.edit-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(24, 33, 47, 0.60);
+}
+
+.edit-modal.hidden {
+    display: none !important;
+}
+
+.edit-modal-content {
+    width: 720px;
+    max-width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    padding: 25px;
+}
+
+.edit-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.edit-modal-header h2 {
+    color: var(--dark-green);
+    margin-bottom: 5px;
+}
+
+.edit-modal-header p {
+    color: var(--gray);
+}
+
+.edit-modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f4f7f6;
+    color: #475467;
+    font-size: 24px;
+    line-height: 1;
+}
+
+.edit-modal-close:hover {
+    background: #e5ebe7;
+}
+
+.edit-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.secondary-button {
+    padding: 11px 20px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #fff;
+    color: #344054;
+    font-weight: 700;
+}
+
+.secondary-button:hover {
+    background: #f8fafc;
+}
+
+.edit-modal-message {
+    display: none;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: #fff1f0;
+    color: #b42318;
+    font-size: 13px;
+}
+
+.edit-modal-message.show {
+    display: block;
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+@media (max-width: 700px) {
+    .edit-modal-content {
+        padding: 18px;
+    }
+
+    .edit-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .edit-modal-actions button {
+        width: 100%;
+    }
+}

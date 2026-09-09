@@ -764,7 +764,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td>${escapeHTML(user.email)}</td>
                 <td>${escapeHTML(user.department)}</td>
                 <td><span class="status ${user.status === "Active" ? "active" : "pending"}">${escapeHTML(user.status)}</span></td>
-                <td><button type="button" class="record-delete" data-type="user" data-id="${escapeHTML(user.id)}">Delete</button></td>`;
+                <td><div class="record-actions">
+                    <button type="button" class="record-edit" data-type="user" data-id="${escapeHTML(user.id)}">Edit</button>
+                    <button type="button" class="record-delete" data-type="user" data-id="${escapeHTML(user.id)}">Delete</button>
+                </div></td>`;
         });
     }
 
@@ -783,7 +786,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td>${escapeHTML(record.userId)}</td>
                 <td>${escapeHTML(record.rights.join(", "))}</td>
                 <td>${escapeHTML(record.expirationDate)}</td>
-                <td><button type="button" class="record-delete" data-type="access" data-id="${escapeHTML(record.id)}">Delete</button></td>`;
+                <td><div class="record-actions">
+                    <button type="button" class="record-edit" data-type="access" data-id="${escapeHTML(record.id)}">Edit</button>
+                    <button type="button" class="record-delete" data-type="access" data-id="${escapeHTML(record.id)}">Delete</button>
+                </div></td>`;
         });
     }
 
@@ -801,7 +807,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td>${escapeHTML(record.id)}</td>
                 <td>${escapeHTML(record.username)}</td>
                 <td>${escapeHTML(record.dateTime)}</td>
-                <td><button type="button" class="record-delete" data-type="login" data-id="${escapeHTML(record.id)}">Delete</button></td>`;
+                <td><div class="record-actions">
+                    <button type="button" class="record-edit" data-type="login" data-id="${escapeHTML(record.id)}">Edit</button>
+                    <button type="button" class="record-delete" data-type="login" data-id="${escapeHTML(record.id)}">Delete</button>
+                </div></td>`;
         });
     }
 
@@ -1008,6 +1017,241 @@ document.addEventListener("DOMContentLoaded", function () {
                 systemLoginForm.reset();
                 resetValidation(systemLoginForm);
             }
+        });
+    }
+
+    // TASK 8 - RECORD EDITING (UPDATE)
+    const editRecordModal = document.getElementById("editRecordModal");
+    const editRecordForm = document.getElementById("editRecordForm");
+    const editRecordType = document.getElementById("editRecordType");
+    const editRecordId = document.getElementById("editRecordId");
+    const editUserFields = document.getElementById("editUserFields");
+    const editAccessFields = document.getElementById("editAccessFields");
+    const editLoginFields = document.getElementById("editLoginFields");
+    const editModalTitle = document.getElementById("editModalTitle");
+    const editModalDescription = document.getElementById("editModalDescription");
+    const editModalMessage = document.getElementById("editModalMessage");
+    const editExpirationDate = document.getElementById("editExpirationDate");
+
+    function showEditMessage(message) {
+        if (!editModalMessage) return;
+        editModalMessage.textContent = message || "";
+        editModalMessage.classList.toggle("show", Boolean(message));
+    }
+
+    function closeEditModal() {
+        if (!editRecordModal) return;
+        editRecordModal.classList.add("hidden");
+        document.body.classList.remove("modal-open");
+        if (editRecordForm) editRecordForm.reset();
+        showEditMessage("");
+    }
+
+    function toDateTimeLocal(value) {
+        const date = new Date(value);
+        if (Number.isNaN(date.getTime())) return "";
+        const pad = function (number) { return String(number).padStart(2, "0"); };
+        return date.getFullYear() + "-" +
+            pad(date.getMonth() + 1) + "-" +
+            pad(date.getDate()) + "T" +
+            pad(date.getHours()) + ":" +
+            pad(date.getMinutes());
+    }
+
+    function populateEditUserDropdown(selectedValue) {
+        const select = document.getElementById("editAccessUserId");
+        if (!select) return;
+        select.innerHTML = '<option value="">Select User ID</option>';
+        users.forEach(function (user) {
+            const value = user.id + " — " + user.username;
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = value;
+            select.appendChild(option);
+        });
+        select.value = selectedValue || "";
+    }
+
+    function openEditModal(type, id) {
+        if (!editRecordModal) return;
+
+        const record =
+            type === "user" ? users.find(function (item) { return item.id === id; }) :
+            type === "access" ? accessAssignments.find(function (item) { return item.id === id; }) :
+            loginActivity.find(function (item) { return item.id === id; });
+
+        if (!record) {
+            alert("The selected record could not be found.");
+            return;
+        }
+
+        editRecordType.value = type;
+        editRecordId.value = id;
+        editUserFields.classList.add("hidden");
+        editAccessFields.classList.add("hidden");
+        editLoginFields.classList.add("hidden");
+        showEditMessage("");
+
+        if (type === "user") {
+            editModalTitle.textContent = "Edit Authorized User";
+            editModalDescription.textContent = "Update the user's information. Task 6 validation is applied.";
+            editUserFields.classList.remove("hidden");
+            document.getElementById("editUsername").value = record.username;
+            document.getElementById("editEmail").value = record.email;
+            document.getElementById("editDepartment").value = record.department;
+            document.getElementById("editStatus").value = record.status;
+        } else if (type === "access") {
+            editModalTitle.textContent = "Edit Access Assignment";
+            editModalDescription.textContent = "Update the selected user's access rights and expiration date.";
+            editAccessFields.classList.remove("hidden");
+            populateEditUserDropdown(record.userId);
+            Array.from(document.querySelectorAll('input[name="editAccessRights"]')).forEach(function (checkbox) {
+                checkbox.checked = record.rights.includes(checkbox.value);
+            });
+            editExpirationDate.value = record.expirationDate;
+            editExpirationDate.min = todayISO;
+        } else {
+            editModalTitle.textContent = "Edit Login Activity";
+            editModalDescription.textContent = "Update the stored login activity information.";
+            editLoginFields.classList.remove("hidden");
+            document.getElementById("editLoginUsername").value = record.username;
+            document.getElementById("editLoginDateTime").value = toDateTimeLocal(record.dateTime);
+        }
+
+        editRecordModal.classList.remove("hidden");
+        document.body.classList.add("modal-open");
+    }
+
+    if (editRecordForm) {
+        editRecordForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            const type = editRecordType.value;
+            const id = editRecordId.value;
+
+            if (type === "user") {
+                const usernameField = document.getElementById("editUsername");
+                const emailField = document.getElementById("editEmail");
+                const departmentField = document.getElementById("editDepartment");
+                const statusField = document.getElementById("editStatus");
+
+                const username = usernameField.value.trim();
+                const email = emailField.value.trim();
+
+                if (!username || username.length < 4 || username.length > 20 || !/^[A-Za-z0-9._-]+$/.test(username)) {
+                    showEditMessage("Username must be 4–20 characters and may contain letters, numbers, dots, underscores, or hyphens.");
+                    usernameField.focus();
+                    return;
+                }
+                if (!email || !emailField.validity.valid) {
+                    showEditMessage("Enter a valid email address.");
+                    emailField.focus();
+                    return;
+                }
+                if (!departmentField.value) {
+                    showEditMessage("Please select a department.");
+                    departmentField.focus();
+                    return;
+                }
+                if (!statusField.value) {
+                    showEditMessage("Please select a status.");
+                    statusField.focus();
+                    return;
+                }
+
+                const record = users.find(function (item) { return item.id === id; });
+                if (!record) return;
+                record.username = username;
+                record.email = email;
+                record.department = departmentField.value;
+                record.status = statusField.value;
+
+                saveRecords(STORAGE_KEYS.users, users);
+                renderAllRecords();
+                closeEditModal();
+                alert("User " + id + " was successfully updated.");
+            }
+
+            if (type === "access") {
+                const userIdField = document.getElementById("editAccessUserId");
+                const expirationField = document.getElementById("editExpirationDate");
+                const selectedRights = Array.from(document.querySelectorAll('input[name="editAccessRights"]:checked'))
+                    .map(function (checkbox) { return checkbox.value; });
+
+                if (!userIdField.value) {
+                    showEditMessage("Please select a User ID.");
+                    userIdField.focus();
+                    return;
+                }
+                if (!selectedRights.length) {
+                    showEditMessage("Please select at least one access right (Read, Write, Execute, or Admin).");
+                    return;
+                }
+                if (!expirationField.value || expirationField.value < todayISO) {
+                    showEditMessage("Expiration date is required and cannot be a previous date.");
+                    expirationField.focus();
+                    return;
+                }
+
+                const record = accessAssignments.find(function (item) { return item.id === id; });
+                if (!record) return;
+                record.userId = userIdField.value;
+                record.rights = selectedRights;
+                record.expirationDate = expirationField.value;
+
+                saveRecords(STORAGE_KEYS.access, accessAssignments);
+                renderAccessAssignments();
+                closeEditModal();
+                alert("Access assignment " + id + " was successfully updated.");
+            }
+
+            if (type === "login") {
+                const usernameField = document.getElementById("editLoginUsername");
+                const dateTimeField = document.getElementById("editLoginDateTime");
+
+                if (!usernameField.value.trim()) {
+                    showEditMessage("Username or email is required.");
+                    usernameField.focus();
+                    return;
+                }
+                if (!dateTimeField.value) {
+                    showEditMessage("Date and time are required.");
+                    dateTimeField.focus();
+                    return;
+                }
+
+                const record = loginActivity.find(function (item) { return item.id === id; });
+                if (!record) return;
+                record.username = usernameField.value.trim();
+                record.dateTime = new Date(dateTimeField.value).toLocaleString();
+
+                saveRecords(STORAGE_KEYS.logins, loginActivity);
+                renderLoginActivity();
+                closeEditModal();
+                alert("Login activity " + id + " was successfully updated.");
+            }
+        });
+    }
+
+    document.addEventListener("click", function (event) {
+        const editButton = event.target.closest(".record-edit");
+        if (editButton) {
+            openEditModal(
+                editButton.getAttribute("data-type"),
+                editButton.getAttribute("data-id")
+            );
+            return;
+        }
+    });
+
+    if (document.getElementById("closeEditModal")) {
+        document.getElementById("closeEditModal").addEventListener("click", closeEditModal);
+    }
+    if (document.getElementById("cancelEditButton")) {
+        document.getElementById("cancelEditButton").addEventListener("click", closeEditModal);
+    }
+    if (editRecordModal) {
+        editRecordModal.addEventListener("click", function (event) {
+            if (event.target === editRecordModal) closeEditModal();
         });
     }
 
