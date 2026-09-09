@@ -170,6 +170,13 @@
             </div>
 
             <button
+                class="nav-item"
+                data-section="userAdmin">
+                🔐 User & System Administration
+            </button>
+
+
+            <button
                 id="logoutBtn"
                 class="logout-button">
                 🚪 Logout
@@ -403,39 +410,6 @@
 
                     </div>
 
-
-                    <div class="task5-form-card">
-                        <div class="task5-form-header">
-                            <h3>Patient Registration Form</h3>
-                            <p>Enter patient information to add a new record to the Patient Records table.</p>
-                        </div>
-                        <form id="patientForm" class="task5-form">
-                            <div class="task5-form-grid">
-                                <div class="form-group">
-                                    <label for="patientName">Full Name</label>
-                                    <input type="text" id="patientName" placeholder="Enter full name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="patientAge">Age</label>
-                                    <input type="number" id="patientAge" min="0" max="120" placeholder="Enter age" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="patientGender">Gender</label>
-                                    <select id="patientGender" required>
-                                        <option value="">Select gender</option>
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                        <option>Other</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="patientContact">Contact Number</label>
-                                    <input type="tel" id="patientContact" placeholder="09XX-XXX-XXXX" pattern="[0-9+()\- ]{7,20}" required>
-                                </div>
-                            </div>
-                            <button type="submit" class="task5-submit">➕ Add Patient</button>
-                        </form>
-                    </div>
 
                     <div class="search-area">
 
@@ -731,45 +705,6 @@
 
                     </div>
 
-
-                    <div class="task5-form-card">
-                        <div class="task5-form-header">
-                            <h3>Appointment Request Form</h3>
-                            <p>Submit a new appointment that will be added to the Appointments table.</p>
-                        </div>
-                        <form id="appointmentForm" class="task5-form">
-                            <div class="task5-form-grid">
-                                <div class="form-group">
-                                    <label for="appointmentPatient">Patient Name</label>
-                                    <input type="text" id="appointmentPatient" placeholder="Enter patient name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="appointmentDoctor">Doctor</label>
-                                    <select id="appointmentDoctor" required>
-                                        <option value="">Select doctor</option>
-                                        <option>Dr. Adrian Mendoza</option>
-                                        <option>Dr. Sofia Ramirez</option>
-                                        <option>Dr. Miguel Torres</option>
-                                        <option>Dr. Andrea Villanueva</option>
-                                        <option>Dr. Carlos Navarro</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="appointmentDate">Appointment Date</label>
-                                    <input type="date" id="appointmentDate" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="appointmentTime">Appointment Time</label>
-                                    <input type="time" id="appointmentTime" required>
-                                </div>
-                                <div class="form-group full-width">
-                                    <label for="appointmentReason">Reason / Notes</label>
-                                    <textarea id="appointmentReason" rows="3" placeholder="Enter reason for appointment" required></textarea>
-                                </div>
-                            </div>
-                            <button type="submit" class="task5-submit">📅 Add Appointment</button>
-                        </form>
-                    </div>
 
                     <div class="table-container">
 
@@ -1219,6 +1154,232 @@
 
                 </div>
 
+            </section>
+
+
+
+            <!-- =================================================
+                 USER & SYSTEM ADMINISTRATION SECTION
+            ================================================== -->
+
+            <section
+                id="userAdmin"
+                class="content-section">
+
+                <div class="section-card">
+
+                    <div class="section-header">
+                        <div>
+                            <h2>User & System Administration</h2>
+                            <p>
+                                Manage authorized users, role-based access, and system login.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- FORM 1 -->
+                    <div class="admin-form-card">
+
+                        <div class="admin-form-header">
+                            <h3>Form 1 — Add User</h3>
+                            <p>Create a new authorized hospital system user.</p>
+                        </div>
+
+                        <form id="addUserForm" class="admin-form">
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label for="adminUsername">Username</label>
+                                    <input
+                                        type="text"
+                                        id="adminUsername"
+                                        placeholder="Enter username"
+                                        minlength="4"
+                                        maxlength="20"
+                                        pattern="[A-Za-z0-9._-]+"
+                                        title="Username must be 4–20 characters and may contain letters, numbers, dots, underscores, or hyphens."
+                                        required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="adminEmail">Email Address</label>
+                                    <input
+                                        type="email"
+                                        id="adminEmail"
+                                        placeholder="Enter email address"
+                                        maxlength="100"
+                                        required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="adminDepartment">Department</label>
+                                    <select id="adminDepartment" required>
+                                        <option value="">Select department</option>
+                                        <option>Registration</option>
+                                        <option>Medical</option>
+                                        <option>Nursing</option>
+                                        <option>Emergency</option>
+                                        <option>Laboratory</option>
+                                        <option>Radiology</option>
+                                        <option>Pharmacy</option>
+                                        <option>Billing</option>
+                                        <option>Medical Records</option>
+                                        <option>Administration</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="initialPassword">Initial Password</label>
+                                    <input
+                                        type="password"
+                                        id="initialPassword"
+                                        placeholder="Enter initial password"
+                                        minlength="8"
+                                        maxlength="64"
+                                        title="Password must contain at least 8 characters."
+                                        required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="userStatus">Status</label>
+                                    <select id="userStatus" required>
+                                        <option>Active</option>
+                                        <option>Inactive</option>
+                                        <option>Suspended</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <button type="submit" class="admin-submit">
+                                ➕ Add User
+                            </button>
+
+                        </form>
+                    </div>
+
+
+                    <!-- FORM 2 -->
+                    <div class="admin-form-card">
+
+                        <div class="admin-form-header">
+                            <h3>Form 2 — Role & Access Assignment</h3>
+                            <p>Assign access rights to an authorized hospital user.</p>
+                        </div>
+
+                        <form id="accessAssignmentForm" class="admin-form">
+
+                            <div class="form-grid">
+
+                                <div class="form-group">
+                                    <label for="accessUserId">User ID</label>
+                                    <select id="accessUserId" required>
+                                        <option value="">Select User ID</option>
+                                        <option>USR-001 — Rolandj</option>
+                                        <option>USR-002 — Maria Santos</option>
+                                        <option>USR-003 — Juan Dela Cruz</option>
+                                        <option>USR-004 — Angela Garcia</option>
+                                        <option>USR-005 — Carlo Ramos</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Access Rights</label>
+                                    <div class="checkbox-group">
+
+                                        <label class="checkbox-option">
+                                            <input type="checkbox" name="accessRights" value="Read">
+                                            <span>Read</span>
+                                        </label>
+
+                                        <label class="checkbox-option">
+                                            <input type="checkbox" name="accessRights" value="Write">
+                                            <span>Write</span>
+                                        </label>
+
+                                        <label class="checkbox-option">
+                                            <input type="checkbox" name="accessRights" value="Execute">
+                                            <span>Execute</span>
+                                        </label>
+
+                                        <label class="checkbox-option">
+                                            <input type="checkbox" name="accessRights" value="Admin">
+                                            <span>Admin</span>
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="expirationDate">Expiration Date</label>
+                                    <input
+                                        type="date"
+                                        id="expirationDate"
+                                        required>
+                                </div>
+
+                            </div>
+
+                            <button type="submit" class="admin-submit">
+                                🔑 Assign Access
+                            </button>
+
+                        </form>
+                    </div>
+
+
+                    <!-- FORM 3 -->
+                    <div class="admin-form-card login-form-card">
+
+                        <div class="admin-form-header">
+                            <h3>Form 3 — System Login</h3>
+                            <p>Sign in to the St. Elizabeth Hospital management system.</p>
+                        </div>
+
+                        <form id="systemLoginForm" class="admin-form">
+
+                            <div class="form-grid login-grid">
+
+                                <div class="form-group">
+                                    <label for="loginUsername">Username / Email</label>
+                                    <input
+                                        type="text"
+                                        id="loginUsername"
+                                        placeholder="Enter username or email"
+                                        maxlength="100"
+                                        required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="loginPassword">Password</label>
+                                    <input
+                                        type="password"
+                                        id="loginPassword"
+                                        placeholder="Enter password"
+                                        minlength="8"
+                                        maxlength="64"
+                                        title="Password must contain at least 8 characters."
+                                        required>
+                                </div>
+
+                                <div class="remember-me">
+                                    <label class="checkbox-option">
+                                        <input type="checkbox" id="rememberMe">
+                                        <span>Remember Me</span>
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            <button type="submit" class="admin-submit">
+                                🔐 Login
+                            </button>
+
+                        </form>
+                    </div>
+
+                </div>
             </section>
 
 

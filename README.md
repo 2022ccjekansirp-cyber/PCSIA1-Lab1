@@ -9,28 +9,49 @@ Added and formatted HTML tables for:
 - Doctors & Medical Staff
 - Appointments
 
-Each required table contains at least 5 sample records and is integrated into the existing hospital interface.
+## Task 5 – Interactive Web Forms
+Added interactive HTML5 forms integrated into the hospital management system:
+- User & System Administration
+- Add User Form
+- Role & Access Assignment Form
+- System Login Form
+
+## Task 6 – Data Input Validation
+
+Implemented client-side data input validation using HTML5 and JavaScript.
+
+### Validation Features
+- Required field validation
+- Email format validation
+- Password minimum length validation
+- Username length and format validation
+- Department selection validation
+- User ID selection validation
+- Expiration date validation
+- Access rights validation
+- Login form validation
+- Invalid input visual feedback
+- Valid input visual feedback
+- User-friendly error messages
+- JavaScript validation before form submission
+
+### HTML5 Validation Attributes
+The system uses:
+- `required`
+- `minlength`
+- `maxlength`
+- `pattern`
+- `min`
+- `max`
+- `type="email"`
+- `type="password"`
+
+### Testing
+Both invalid and valid input scenarios were tested to verify that the validation works correctly.
 
 ## Technologies
 - HTML5
 - CSS3
 - JavaScript
-
-## Project Structure
-PCSIA1-Lab1/
-├── index.html
-├── css/
-│   └── style.css
-├── js/
-│   └── script.js
-├── images/
-│   └── logo.png (if available)
-└── README.md
-
-## Task 5 - Interactive Web Forms
-
-The updated prototype includes two interactive HTML5 forms integrated with the Task 4 tables:
-- Patient Registration Form - validates patient input and dynamically adds a new patient row.
-- Appointment Request Form - validates appointment input and dynamically adds a new appointment row.
-
-Both forms use CSS matching the existing hospital interface and JavaScript submit event handlers.
+- Git
+- GitHub
